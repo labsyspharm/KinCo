@@ -151,7 +151,7 @@ def Docking(model, to_run):
     """ STEP 4.0 superpose the model to the reference PDB file (to define binding site) """
     # find the reference target file 1a9u .1
     siteref=('./1a9u.1.1.1.tgt.pdb')
-    # align homology model to the reference file
+    #runs DeepAlign to superimpose 1A9U onto query structure
     recordaln= args.geneID + '-' + args.ligand_inchikey + '-' + model+'_align'
     outputaln = recordaln+'.pdb'
     parsealign= modeltmp +'/align_parsed.pdb'
@@ -174,7 +174,9 @@ def Docking(model, to_run):
             os.remove(anoutput)
     
     """ STEP 4.1 from the superposed model, read the center coordinates"""
-    # binding site is defined by the R515 and M865 in 1A9U
+    # define binding site using R515 and M865 in 1A9U
+    # find the coordinates of these two residues in the superimposed 1A9U structure
+    # and calculate the mean of the new coordinates as the center coordinates
     with open(parsealign,'r') as g:
         lines=g.readlines()
         for line in lines:

@@ -97,7 +97,7 @@ def get_center_coords(geneID, hm_name, inchikey):
     structure to identify its active site. center of the active site is calculated
     """
     # find the reference target file 1a9u .1
-    siteref=('/home/cl321//MoreStructures_v3/1a9u.1.1.1.tgt.pdb')
+    siteref=('../resources/1a9u.1.1.1.tgt.pdb')
     recordaln= geneID + '-' + hm_name + '-' + inchikey + '_align'
     outputaln = recordaln+'.pdb'
     
