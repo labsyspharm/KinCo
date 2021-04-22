@@ -31,10 +31,15 @@ The example resulting files containing the target kinase sequences and the templ
 The model was pretrained on all protein-ligand (not limited to kinases) complexes in PDBBIND2018 dataset.
 
 #### Featurization
-feat_PDBBind.py
+Prior to model training, the protein-ligand complexes in PDBBIND2018 in .pdb format were processed (see Processing section below) and featurized using the script feat_PDBBind.py. This script is adapted from https://gitlab.com/cheminfIBB/pafnucy/-/blob/master/prepare.py and uses openbabel to extract atomistic features.
 
 #### Modeling training
-pretraining_PDBBIND.py
+To pretrain the models, pretraining_PDBBIND.py was used to train a model using all protein-ligand complexes in PDBBIND2018. 
+
+example training command:
+```bash
+
+```
 
 ### Transfer learning using in silico structures
 The parameters of the filters were initialized with those learned during pretraining so that the model starts with recognizing biophysically meaningful features derived from crystal structures. 
@@ -45,13 +50,20 @@ To featurize the kinase-compound pairs selected by vina (M1) or trained models (
 To combine the two datasets: concat_hdfs.py
 
 #### Model training
-training_transfer.py
+Models were trained using training_transfer.py
+
+example training command:
+```bash
+
+```
 
 ## Prediction
 
-### Affinity prediction using Autodock vina
-
+### Affinity prediction using Autodock Vina
+Scoring function from Autodock Vina was used to rescore docked poses produced by Audock Qvina in vina_rescore.py. Affinities produced by Autodock Vina in kcal/mol are converted to Kd in log(uM). 
+ 
 ### Affinity prediction using trained 3DCNN models
+
 
 
 ## Processing
