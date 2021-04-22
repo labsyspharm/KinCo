@@ -43,7 +43,12 @@ input_dir='~/Dataset/PDBBIND2018/cv4'
 # point to output directory where the models will be stored under
 output_dir='.'
 
-python pretraining_PDBBIND.py --input_dir $input_dir --output_prefix $output_dir'output' --log_dir $output_dir'/logdir/ --l2 1e-05 --learning_rate 1e-05 --rotations 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 --num_epochs 20 --num_checkpoints 500 --random_seed 123
+python pretraining_PDBBIND.py --input_dir $input_dir 
+			      --output_prefix $output_dir'output' 
+   			      --log_dir $output_dir'/logdir/ 
+       			      --l2 1e-05 --learning_rate 1e-05 
+ 			      --rotations 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 
+			      --num_epochs 20 --num_checkpoints 500 --random_seed 123
 ```
 
 ### Transfer learning using in silico structures
@@ -68,7 +73,14 @@ fine_tune=False
 # define the optimal pretrained model to begin training with
 meta_path='~/PDBBind2018/cv4/1/output-2020-11-30T15:28:40-232968.meta'
 
-python training_transfer.py --input_dir $input_dir --output_prefix $output_dir'output' --log_dir $output_dir'/logdir/ --l2 1e-05 --learning_rate 1e-05 --num_epochs 20 --num_checkpoints 100 --fine_tune $fine_tune --random_seed 123 --meta_path $meta_path
+python training_transfer.py --input_dir $input_dir 
+			    --output_prefix $output_dir'output' 
+			    --log_dir $output_dir'/logdir/ 
+			    --l2 1e-05 --learning_rate 1e-05 
+			    --num_epochs 20 --num_checkpoints 100 
+			    --fine_tune $fine_tune 
+			    --random_seed 123 
+			    --meta_path $meta_path
 ```
 
 ## Prediction
