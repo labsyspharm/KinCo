@@ -92,7 +92,8 @@ Scoring function from Autodock Vina was used to rescore docked poses produced by
 Using trained 3DCNN models to predict binding affinities for a kinase-compound pair. The workflow is consisted of two steps:
 1) featurization: feat_poses.py. This script takes multiple kinase-compound pairs and for each pair, featurizes all of its docked poses into a .hdf file for prediction
 2) prediction: predict_apair.py. This script takes multiple kinase-compound pairs (listed under input_log/*.txt) and predicts the binding affinities of all the poses using the specified trained models). An example command to run this script is predict.sh
-This is the steps to run the subsequent steps of iterative training in which the representative poses are selected by the models trained in the previous iteration.
+
+This is the workflow to run the subsequent steps of iterative training in which the representative poses are selected by the models trained in the previous iteration.
 
 ## Processing
 
