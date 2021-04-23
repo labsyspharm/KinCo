@@ -52,7 +52,7 @@ python pretraining_PDBBIND.py --input_dir $input_dir
  			      --rotations 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 
 			      --num_epochs 20 --num_checkpoints 500 --random_seed 123
 ```
-
+---
 ### Transfer learning using in silico structures
 The parameters of the filters were initialized with those learned during pretraining so that the model starts with recognizing biophysically meaningful features derived from crystal structures. 
 
@@ -90,7 +90,7 @@ python training_transfer.py --input_dir $input_dir
 
 ### Affinity prediction using Autodock Vina
 Scoring function from Autodock Vina was used to rescore docked poses produced by Audock Qvina in vina_rescore.py. Affinities produced by Autodock Vina in kcal/mol are converted to Kd in log(uM). This is also the first step to iterative training -- the pose predicted by Vina to have the highest binding affinity was used to train model M1. 
-  
+---  
 ### Affinity prediction using trained 3DCNN models
 Using trained 3DCNN models to predict binding affinities for a kinase-compound pair. The workflow is consisted of two steps:
 1) featurization: feat_poses.py. This script takes multiple kinase-compound pairs and for each pair, featurizes all of its docked poses into a .hdf file for prediction
@@ -106,7 +106,7 @@ This section contains scripts for data cleaning or providing additional informat
 As a modification from the original workflow of Pafnucy, we will use the full length protein instead of the predefined "pocket.pdb" file. In addition, we will use the partial charge calculated by AutodockTool prepare_receptor4.py and prepare_ligand4.py scripts (Chimera was used for the proteins in Pafnucy). To perform such data processing, we will convert the single chain protein into PDBQT files. 
 
 The script convert_protein_PDBBIND.py was used. 
-
+---
 ### distance from center of ATP binding site
 To approximate whether a pose is within the binding site, here we calculate the distance between the pose and the active site. The pose is represented as a point (its center), and the active site is represented as the center between two residues (the equivalent of R515 and M865 in 1A9U). 
 
@@ -115,7 +115,7 @@ The script rmsd_to_center.py performs the following steps:
 2) identifies the center of the kinase structure based on the alignment and the center of pose
 3) calculates the distance between the two points
 4) saves the distance of all poses of a pair into a .csv file
-
+---
 ### select representative structures for training
 To train models on the docked poses, we select two poses for each kinase-compound pair: a pose that captures the binding interaction and a pose that acts as a negative example to teach the model about "bad poses.
 "
@@ -128,7 +128,7 @@ begin_index = 0  # beginning index of the kinase-compound pair to process in the
 end_index = 10  # last index of the kinase-compound pair to process in the reference table
 model_name = 'M1'  # name of the model to use for selection
 
-python pick_pred_pose.py 0 10 M1
+python pick_pred_pose.py 0 10 model_name
 ```
  
 #### select nonbinding pose as negative example
@@ -141,5 +141,5 @@ end_index = 10  # last index of the kinase-compound pair to process in the refer
 
 python pick_neg_pose.py 0 10
 ```
-
+---
 ### clustering-based parition of training/validation/test sets
