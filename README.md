@@ -3,7 +3,6 @@
 KinCo is a dataset containing in silico structures of kinase-compound pairs. 
  <br><br>
  <br><br>
- <br><br>
 ## Docking
 
 To generate in silico structures in KinCo, we started with the DTC dataset (https://drugtargetcommons.fimm.fi/) and identified all the kinase-compound pairs with a binding constant. For each kinase-compound pair, we docked the compound into the homology models of the kinases. The use of homology model allows us to 1) generate in silico structures for the kinase-compound pairs in which the kinase does not yet have a solved structure and 2) sample the conformation state of the kinase. About 11,000 docked poses were generated for each kinase-compound pair in various conformation of the kinases. 
@@ -15,9 +14,8 @@ Information on the coordinates of the poses and the corresponding homology model
 import pandas as pd
 poses = pd.read_pickle(pairbase + 'pose.df')
 ```
-   
-   
-
+<br><br>
+<br><br>
 ## Homology Modeling
 Homology models used during docking is generated using the Ensembler package https://ensembler.readthedocs.io/en/latest/ by the Chodera lab. This includes the following steps:
 1) Gather the sequences of all kinase domains for which we want to generate homology models for (command in ensembler_pipeline.sh)
@@ -27,9 +25,8 @@ Homology models used during docking is generated using the Ensembler package htt
 5) Quality check (command in run_homology_modeling.py)
 
 The example resulting files containing the target kinase sequences and the template kinase sequences from step 1 and 2 are included in the target/ and template/ directory respectively.
-   
-   
-   
+<br><br>
+<br><br>
 ## Modeling 
 
 ### Pretraining on PDBBIND
@@ -87,9 +84,8 @@ python training_transfer.py --input_dir $input_dir
 			    --random_seed 123 
 			    --meta_path $meta_path
 ```
-   
-   
-  
+<br><br>
+<br><br>
 ## Prediction
 
 ### Affinity prediction using Autodock Vina
@@ -101,9 +97,8 @@ Using trained 3DCNN models to predict binding affinities for a kinase-compound p
 2) prediction: predict_apair.py. This script takes multiple kinase-compound pairs (listed under input_log/*.txt) and predicts the binding affinities of all the poses using the specified trained models). An example command to run this script is predict.sh
 
 This is the workflow to run the subsequent steps of iterative training in which the representative poses are selected by the models trained in the previous iteration.
-   
-   
-   
+<br><br>
+<br><br>
 ## Processing
 
 ### process proteins and ligands in PDBBIND2018 for featurization
