@@ -1,9 +1,9 @@
 # KinCo
 
 KinCo is a dataset containing in silico structures of kinase-compound pairs. 
-\n
-\n
-\n
+ <br><br>
+ <br><br>
+ <br><br>
 ## Docking
 
 To generate in silico structures in KinCo, we started with the DTC dataset (https://drugtargetcommons.fimm.fi/) and identified all the kinase-compound pairs with a binding constant. For each kinase-compound pair, we docked the compound into the homology models of the kinases. The use of homology model allows us to 1) generate in silico structures for the kinase-compound pairs in which the kinase does not yet have a solved structure and 2) sample the conformation state of the kinase. About 11,000 docked poses were generated for each kinase-compound pair in various conformation of the kinases. 
