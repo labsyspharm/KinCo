@@ -146,4 +146,27 @@ python pick_neg_pose.py 0 10
 
 ## Clustering-based parition of training/validation/test sets
 
+### preparation
+
+#### kinase distance
+The distance between two kinases is calculated based on the multiple sequence alignment produced by jackhmmer. The distance between a non-kinase and a kinase is set to 100%. 
+
+#### compound distance
+The distance between two compounds is measured by the jaccard distance between the 1024-bit Morgan fingerprints (via RDKit https://www.rdkit.org/)
+
+#### dataset preparation files
+Other files necessary to run the training/validation/test split is created in the ipython notebook generate_prep_files.ipynb. Please see notebook for detail
+
+---
+### training/validation/test sets partition
+The partition is performed using the cluster.py script. The script takes as input multiple kinase distance thresholds and compound distance thresholds to generate several validation/test sets so that each set is above a certain kinase-compound threshold combination, essentially creating a grid-like validation/test set:
+| | kinase threshold 1 | kinase threshold 2 | kinase threshold 3 |
+| --- | --- | --- | --- | --- | --- |
+|compound threshold 1 | | | |
+| --- | --- | --- | --- | --- | --- | 
+|compound threshold 2 | | | |
+| --- | --- | --- | --- | --- | --- |
+|compound threshold 3 | | | |
+| --- | --- | --- | --- | --- | --- |
+
 
