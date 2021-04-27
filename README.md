@@ -162,11 +162,8 @@ Other files necessary to run the training/validation/test split is created in th
 The partition is performed using the cluster.py script. The script takes as input multiple kinase distance thresholds and compound distance thresholds to generate several validation/test sets so that each set is above a certain kinase-compound threshold combination, essentially creating a grid-like validation/test set:
 | | kinase threshold 1 | kinase threshold 2 | kinase threshold 3 |
 | --- | --- | --- | --- | --- | --- |
-|compound threshold 1 | | | |
-| --- | --- | --- | --- | --- | --- | 
+|compound threshold 1 | | | | 
 |compound threshold 2 | | | |
-| --- | --- | --- | --- | --- | --- |
 |compound threshold 3 | | | |
-| --- | --- | --- | --- | --- | --- |
 
 
