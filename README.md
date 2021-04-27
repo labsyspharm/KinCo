@@ -90,6 +90,7 @@ python training_transfer.py --input_dir $input_dir
 
 ### Affinity prediction using Autodock Vina
 Scoring function from Autodock Vina was used to rescore docked poses produced by Audock Qvina in vina_rescore.py. Affinities produced by Autodock Vina in kcal/mol are converted to Kd in log(uM). This is also the first step to iterative training -- the pose predicted by Vina to have the highest binding affinity was used to train model M1. 
+
 ---  
 ### Affinity prediction using trained 3DCNN models
 Using trained 3DCNN models to predict binding affinities for a kinase-compound pair. The workflow is consisted of two steps:
@@ -104,8 +105,8 @@ This section contains scripts for data cleaning or providing additional informat
 
 ### process proteins and ligands in PDBBIND2018 for featurization
 As a modification from the original workflow of Pafnucy, we will use the full length protein instead of the predefined "pocket.pdb" file. In addition, we will use the partial charge calculated by AutodockTool prepare_receptor4.py and prepare_ligand4.py scripts (Chimera was used for the proteins in Pafnucy). To perform such data processing, we will convert the single chain protein into PDBQT files. 
-
 The script convert_protein_PDBBIND.py was used. 
+
 ---
 ### distance from center of ATP binding site
 To approximate whether a pose is within the binding site, here we calculate the distance between the pose and the active site. The pose is represented as a point (its center), and the active site is represented as the center between two residues (the equivalent of R515 and M865 in 1A9U). 
@@ -141,5 +142,8 @@ end_index = 10  # last index of the kinase-compound pair to process in the refer
 
 python pick_neg_pose.py 0 10
 ```
----
-### clustering-based parition of training/validation/test sets
+<br><br>
+
+## Clustering-based parition of training/validation/test sets
+
+
