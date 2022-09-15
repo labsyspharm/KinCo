@@ -7,21 +7,23 @@ library(shinyWidgets)
 library(shinythemes)
 library(shinyBS)
 library(stringr)
-
+library(filesstrings)
+library(R.utils)
 library(reticulate)
 library(dplyr)
 library(stringr)
 
 #WHEN PUBLISHED ON SHINY IO
-#py_install(c('pandas',"gdown")) 
+py_install(c('pandas')) 
 #LOCALLY
-use_python("/opt/anaconda3/bin/python3.7")
+#use_python("/opt/anaconda3/envs/Py38.torch/bin/python")
 
 source('molViewer.R')
 source('export_posefile.R')
 
 pd <- import('pandas')
-gdown <- import("gdown")
+#gdown <- import("gdown")
+zipfile <- import("zipfile")
 
 #UI elements
 mainUI<-function(id){ #This is main UI
@@ -180,40 +182,65 @@ kinaseServer<-  function(id, kinase_compound_pair){
       ########Retrieving information on cloud###########
       
       GENEID <<- compoundMetaData$ENTREZ_GENE_ID
+      tgtgeneid <<- compoundMetaData$ENTREZ_GENE_ID
+      lgdinchikey <<- kinase_compound_pair[2]
+      datasetdir <<- './data/' 
+      #pairpath <<- paste0(datasetdir, tgtgeneid, '/', lgdinchikey)
+      pairpath <<- paste0(datasetdir,lgdinchikey,"/")
+      output_dir <<- paste0(datasetdir,'exported_structures/')
+      
+      if (!dir.exists(output_dir)){
+        dir.create(output_dir)
+      }
+      ###pairdir <<- unzip_lgd(pairpath)
+      
+      
+      
+      
       unlink(paste0("./data/",GENEID))
       dir.create(paste0("./data/",GENEID))
-      gdown$download(paste0("https://drive.google.com/uc?id=",compoundMetaData$GID,"&export=download"), output = paste0("./data/",GENEID,"/",compound_file))
+      ###gdown$download(paste0("https://drive.google.com/uc?id=",compoundMetaData$GID,"&export=download"), output = paste0("./data/",GENEID,"/",compound_file))
+      unzip("KinCo_sel_2022-08-14.zip", files = c(paste0("KinCo_sel_2022-08-14/",GENEID,".zip")), exdir = "data")
+      unzip(paste0("data/KinCo_sel_2022-08-14/",GENEID,".zip"), files = c(compound_file), exdir = paste0("./data/",GENEID))
+      unzip(paste0("data/",GENEID,"/",compound_file), exdir = paste0("./data/",lgdinchikey))
+      posedf <<- pd$read_pickle(paste0(pairpath,'pose.df'))
+      unlink( list.files("data", pattern = "\\.zip$", full.names = T))
+      
       showModal(modalDialog(HTML("Locating our database... <br>
                             Kinase found! <br>
                             Searching for compound..."), footer=NULL))
       
       #download.file(paste0("https://drive.google.com/uc?id=",compoundMetaData$PDB_GID,"&export=download"), destfile = paste0("./data/",GENEID,'/PDB.zip'), mode = "wb")
       #Because PDB folder is very large, skipping virus warning
-      gdown$download(paste0("https://drive.google.com/uc?id=",compoundMetaData$PDB_GID,"&export=download"), output = paste0("./data/",GENEID,'/PDB.zip'))
+      ####gdown$download(paste0("https://drive.google.com/uc?id=",compoundMetaData$PDB_GID,"&export=download"), output = paste0("./data/",GENEID,'/PDB.zip'))
+      unzip("KinCo_sel_2022-08-14.zip", files = c(paste0("KinCo_sel_2022-08-14/prot_PDB/", GENEID,".zip")), exdir = "data")
+      pdb_needed <- unique(posedf$ModelName)
+      unzip(paste0("data/KinCo_sel_2022-08-14/prot_PDB/", GENEID,".zip"), files = unlist(
+        lapply(pdb_needed,function(m){paste0(m,".pdb.zip")})
+      ), exdir = "data")
+      #Deep pulling zipped data
+      lapply(pdb_needed,function(m){
+        zf <- zipfile$ZipFile(paste0("data/",m,".pdb.zip"),"r")
+        zf$extract(unzip(paste0("data/",m,".pdb.zip"), list=T)$Name, path = "./data/")
+        file.move(paste0("data/",unzip(paste0("data/",m,".pdb.zip"), list=T)$Name),"./data")
+        unlink("data/n", recursive = TRUE)
+      })
+      
       showModal(modalDialog("Compound found!", footer=NULL))
       showModal(modalDialog(HTML("Locating our database... <br>
                             Kinase found! <br>
                             Searching for compound... <br>
                             Compound found! <br>
                             Loading the pair into server..."), footer=NULL))
-      unzip(paste0("./data/",GENEID,'/PDB.zip') ,exdir=paste0("./data/",GENEID,'/'))
+      ###unzip(paste0("./data/",GENEID,'/PDB.zip') ,exdir=paste0("./data/",GENEID,'/'))
       #showModal(modalDialog(as.character(list.files(paste0("./data/",kinase_compound_pair[1],'/PDB/'))[1])))
       
       
       
-      tgtgeneid <<- compoundMetaData$ENTREZ_GENE_ID
-      lgdinchikey <<- kinase_compound_pair[2]
-      #modelname = 'ABL1_HUMAN_D0_1OPL_A'
+    
       
-      datasetdir <<- './data/' 
-      pairpath <<- paste0(datasetdir, tgtgeneid, '/', lgdinchikey)
-      output_dir <<- paste0(datasetdir,tgtgeneid,'/exported_structures/')
-      if (!dir.exists(output_dir)){
-        dir.create(output_dir)
-      }
-      pairdir <<- unzip_lgd(pairpath)
       
-      posedf <<- pd$read_pickle(paste0(pairdir,'pose.df'))
+      
       removeModal()
       
       
@@ -428,7 +455,8 @@ homologServer<-function(id){
         session_ns <- session$ns('tmp')
         mod_id <- substr(session_ns, 1, nchar(session_ns)-4)
         
-        pdbqt <- paste0(pairdir,'/PDBQT/',lgdinchikey,'.pdbqt') #read pose coordinate
+        ###pdbqt <- paste0(pairdir,'/PDBQT/',lgdinchikey,'.pdbqt') #read pose coordinate
+        pdbqt <- paste0(pairpath,'/ligand.pdbqt')
         if (!dir.exists(paste0(output_dir,tgtgeneid,'-',lgdinchikey))){
           dir.create(paste0(output_dir, tgtgeneid, '-', lgdinchikey))
         }
@@ -444,8 +472,8 @@ homologServer<-function(id){
         }
         #selected_poses<-input$poseSelector
         poses<- lapply(pose_ids, function(POSE) paste0(output_dir, tgtgeneid, '-', lgdinchikey, '/',model_name,'-',POSE,'_lgd.pdb'))
-        homolog <- paste0("./data/",GENEID,'/PDB/',input$homologSelector,".pdb")
-        
+        ###homolog <- paste0("./data/",GENEID,'/PDB/',input$homologSelector,".pdb")
+        homolog <- paste0("./data/",input$homologSelector,".pdb")
         
         output$model <- render_homolog(homolog, poses )  
       })
