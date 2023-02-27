@@ -1,0 +1,13 @@
+name: molecularviewer
+title:
+username:
+account: nnguyen19
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4056151
+bundleId: 6301502
+url: https://nnguyen19.shinyapps.io/molecularviewer/
+when: 1663167409.9988
+lastSyncTime: 1663167409.99881
+asMultiple: FALSE
+asStatic: FALSE
