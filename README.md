@@ -168,5 +168,77 @@ The partition is performed using the cluster.py script. The script takes as inpu
 
 <br><br>
 
+## Download the Data
+------------------ 
+TABLE OF CONTENTS
+------------------
+
+* GENERAL INFORMATION
+  * TITLE
+  * AUTHORS AND BEST CONTACT
+  * RECOMMENDED CITATION
+  * LICENSES
+  * USEFUL LINKS
+* FILE ORGANIZATION
+* CODE AVAILABILITY
+* FUNDING
+* ADDITIONAL NOTES/COMMENTS
+
+--------------------
+GENERAL INFORMATION
+--------------------
+
+1. A hybrid structure-based machine learning approach for predicting kinase inhibition by small molecules 
+
+2. Changchang Liu, Peter Kutchukian, Nhan D. Nguyen, Mohammed AlQuraishi,* †, and Peter K. Sorger,*,†
+
+3. **Contact Information** 
+* Name: Peter Sorger
+* Organization/institution: Laboratory of Systems Pharmacology, Department of Systems Biology, Harvard Program in Therapeutic Science, Harvard Medical School, Boston, Massachusetts 02115, USA
+* Email: peter_sorger@hms.harvard.edu cc: lsp-papers@hms.harvard.edu
+
+4. **Links to publications that cite or use the data:** 
+TBD
+
+5. **Recommended citation for this dataset:**  
+Liu, C., Kutchukian, P., Nguyen, D. N., AlQuraishi, M., & Sorger, P. K. (2023). A hybrid structure-based machine learning approach for predicting kinase inhibition by small molecules. 
+
+6. **Licenses/restrictions placed on the data:** 
+CC BY https://creativecommons.org/licenses/by/4.0/
+  
+7. **For more information, go to:** 
+https://github.com/labsyspharm/KinCo
+
+-------------------
+FILE ORGANIZATION
+------------------
+
+1. **FILE NAMING CONVENTIONS:**   
+Each folder follows the following naming convention: 
+KinCo/GeneID/InChiKey.zip
+
+2. **FILE TYPES/SUMMARY:**
+Each folder corresponds to a compound (N). The following files are available for each compound and are located on Globus [https://app.globus.org/file-manager/collections/86b771ce-a6bb-11eb-9609-491d66228b9d/overview].
+
+ 
+|File Type     | Description                                                                         | Location|
+|--------      | ------------------------------------------------------------------------------------|---------|
+|smiles        | A text file of the SMILES string of the compound.                                   | Globus  |
+|mol2/N.mol2   | The 2D structure of the compound in .mol2 format.                                   | Globus  |
+|PDBQT/N.pdbqt | The 3D structure of the compound in .pdbqt format. Coordinates are before docking.  | Globus  |
+|pose.df       | A pickled python pandas dataframe of the coordinates of the docked poses.           | Globus  |
+
+
+-------------------
+CODE AVAILABILITY
+------------------
+https://github.com/labsyspharm/KinCo
+
+--------------------------
+ADDITIONAL NOTES/COMMENTS
+--------------------------
+
+Please let Peter Sorger know if any errors are found in this data.  
+
 ## Acknowledgement
-This work was supported by the NIH IDG program (U24-DK116204) and the DARPA Panacea program (HR0011-19-2-0022). This paper does not reflect the position or the policy of the Government, and no official endorsement should be inferred.
+This work was supported by the DARPA PANACEA program grant HR0011-19-2-0022 and by NIH grants U54-CA225088 and U24-DK116204. This paper does not reflect the position or the policy of the Government, and no official endorsement should be inferred.
