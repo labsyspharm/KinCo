@@ -241,4 +241,4 @@ ADDITIONAL NOTES/COMMENTS
 Please let Peter Sorger know if any errors are found in this data.  
 
 ## Acknowledgement
-This work was supported by the DARPA PANACEA program grant HR0011-19-2-0022 and by NIH grants U54-CA225088 and U24-DK116204. This paper does not reflect the position or the policy of the Government, and no official endorsement should be inferred.
+This work was supported by the DARPA PANACEA program grant HR0011-19-2-0022 and by NIH grant U24-DK116204. This paper does not reflect the position or the policy of the Government, and no official endorsement should be inferred.
